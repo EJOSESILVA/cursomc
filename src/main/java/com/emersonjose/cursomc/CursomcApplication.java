@@ -8,7 +8,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.emersonjose.cursomc.domain.Categoria;
+import com.emersonjose.cursomc.domain.Produto;
 import com.emersonjose.cursomc.repositories.CategoriaRepository;
+import com.emersonjose.cursomc.repositories.ProdutoRepository;
 
 @SpringBootApplication
 public class CursomcApplication implements CommandLineRunner {
@@ -18,15 +20,29 @@ public class CursomcApplication implements CommandLineRunner {
 	}
 
 	@Autowired
-	private CategoriaRepository repo;
+	private CategoriaRepository categoriaRepository;
+	@Autowired
+	private ProdutoRepository produtoRepository;
 	
 	@Override
 	public void run(String... args) throws Exception {
 		
 		Categoria cat1 = new Categoria(null,"Informática");
 		Categoria cat2 = new Categoria(null,"Escritório");
+	
+		Produto p1 = new Produto(null, "Computador", 2000.00);
+		Produto p2 = new Produto(null, "Impressora", 800.00);
+		Produto p3 = new Produto(null, "Mouse", 80.00);
 		
-		repo.saveAll(Arrays.asList(cat1,cat2));
+		cat1.getProdutos().addAll(Arrays.asList(p1,p2,p3));
+		cat1.getProdutos().add(p2);
+		
+		p1.getCategorias().add(cat1);
+		p1.getCategorias().addAll(Arrays.asList(cat1,cat2));
+		p1.getCategorias().add(cat1);
+		
+		categoriaRepository.saveAll(Arrays.asList(cat1,cat2));
+		produtoRepository.saveAll(Arrays.asList(p1,p2,p3));
 		
 	}
 
