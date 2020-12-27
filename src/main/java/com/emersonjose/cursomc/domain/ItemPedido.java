@@ -99,6 +99,4 @@ public class ItemPedido implements Serializable{
 	}
 	
 	
-	
-	
 }
